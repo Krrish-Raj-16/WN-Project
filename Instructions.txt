@@ -1,0 +1,34 @@
+Here’s what was implemented and how it maps to your spec and Kirkpatrick et al. ([arXiv:1612.00796](https://arxiv.org/abs/1612.00796)).
+
+### Deliverable location
+New project: **`/Users/apple/Documents/Personal/fl-ewc-continual/`** (matches the required layout: `configs/`, `src/`, `results/`, `report/`, `run_experiment.py`, `requirements.txt`, `README.md`).
+
+### Reference PDF
+**`1612.00796v2.pdf` was not in the workspace**, so implementation follows your **`FL_EWC_Implementation_Requirements (1).md`** and the standard EWC formulation from the paper (diagonal Fisher as squared-gradient averages; penalty \(\lambda \sum_i F_i(\theta_i - \theta^\*_i)^2\) aggregated over past tasks). You can drop the PDF into `report/` or open the [arXiv version](https://arxiv.org/abs/1612.00796).
+
+### Core behavior
+| Piece | Implementation |
+|--------|------------------|
+| **Tasks** | Permuted MNIST/FMNIST (`task_type: permuted`) and split CIFAR-10 (`task_type: split`, disjoint class groups). |
+| **Non-IID** | Dirichlet labeling (`dirichlet_partition` / alias `partition_data`); `alpha: "iid"` or a float. |
+| **Models** | `MLP` (784→400→400→10) and `SmallCNN` for CIFAR; `get_parameters` / `set_parameters` in `model.py`. |
+| **EWC** | `compute_fisher`, `EWC` class with `consolidate` + `penalty` in `ewc.py`. |
+| **Clients** | `FedAvgClient` and `EWCClient` in `client.py` (task loss + `ewc.penalty`). |
+| **Server** | Flower `FedAvg` + centralized `evaluate_fn` on **per-task global test loaders**; fit config supplies `task_id` and **`finalize_task`** (true at the **last round of each task segment**) so **`consolidate` runs after training that task**, matching the paper (Fisher after task completion). This replaces the doc’s `is_new_task` snippet, which would store Fisher for the wrong task if taken literally. |
+| **Metrics** | CSV logger + `*_summary.json` with CFR between task boundaries and BWT. |
+| **Simulation** | `requirements.txt` uses **`flwr[simulation]`** (Ray) so `start_simulation` works. |
+
+### How to run
+```bash
+cd /Users/apple/Documents/Personal/fl-ewc-continual
+python3 -m venv .venv && source .venv/bin/activate
+pip install -r requirements.txt
+python run_experiment.py --config configs/smoke.yaml          # quick check
+python run_experiment.py --config configs/fedavg_mnist.yaml
+python run_experiment.py --config configs/ewc_mnist.yaml
+```
+
+Plots for Figures 1–3 (FedAvg vs EWC CSVs): `python generate_plots.py --fedavg_csv ... --ewc_csv ... --out_dir results`. Figures 4–7 need multiple runs (α, λ, client counts); the README notes that.
+
+### Course artifacts still for you
+Fill **group info, YouTube link**, run full grid (α ∈ {0.01, 0.1, 0.5, 1.0, IID}, clients {10,50,100}, λ ablation), generate all seven figures at 300 DPI, and add **`report/report.pdf`** from Overleaf when ready.

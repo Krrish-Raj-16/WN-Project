@@ -1,0 +1,30 @@
+experiment:
+  name: "fedavg_cifar10_10clients_alpha0.1"
+  seed: 42
+
+federated:
+  num_clients: 10
+  client_fraction: 0.5
+  num_rounds_per_task: 40
+  num_tasks: 3
+
+local_training:
+  epochs: 5
+  batch_size: 32
+  optimizer: "sgd"
+  lr: 0.01
+  momentum: 0.9
+
+ewc:
+  enabled: false
+
+data:
+  dataset: "cifar10"
+  partition: "dirichlet"
+  alpha: 0.1
+  task_type: "split"
+
+model:
+  name: "cnn"
+  hidden_dim: 400
+  num_hidden: 2

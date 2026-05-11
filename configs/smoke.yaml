@@ -1,0 +1,30 @@
+experiment:
+  name: "smoke_fedavg_mnist"
+  seed: 42
+
+federated:
+  num_clients: 2
+  client_fraction: 1.0
+  num_rounds_per_task: 1
+  num_tasks: 2
+
+local_training:
+  epochs: 1
+  batch_size: 64
+  optimizer: "sgd"
+  lr: 0.01
+  momentum: 0.9
+
+ewc:
+  enabled: false
+
+data:
+  dataset: "mnist"
+  partition: "dirichlet"
+  alpha: "iid"
+  task_type: "permuted"
+
+model:
+  name: "mlp"
+  hidden_dim: 400
+  num_hidden: 2
