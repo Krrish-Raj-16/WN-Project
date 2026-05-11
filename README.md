@@ -51,6 +51,7 @@ See `FL_EWC_Implementation_Requirements.md` (course spec). This repo implements 
 
 **Course Name:** Wireless Network  
 **Course Code:** CS548  
+**Youtube Video Link** https://youtu.be/dbJpSQ8ll4U
 
 ### Group Members
 - **Harsh Kumar** (2201AI14)
