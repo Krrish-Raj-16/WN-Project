@@ -47,12 +47,13 @@ Figures 4–7 need multiple runs (alphas, λ grid, client counts); build those t
 
 See `FL_EWC_Implementation_Requirements.md` (course spec). This repo implements `src/` modules (`data`, `model`, `ewc`, `client`, `server`, `utils`), YAML configs under `configs/`, and `run_experiment.py`.
 
-## Group / submission placeholders
+## Project Details
 
-- **Group / category / paper title**: fill in for your course form.
-- **YouTube link**: add your presentation URL here when recorded.
-- **Reference PDF**: place `1612.00796v2.pdf` locally if you want an offline copy; formulas match the paper’s EWC loss (task loss + weighted quadratic penalty with diagonal Fisher).
+**Course Name:** Wireless Network  
+**Course Code:** CS548  
 
-## Instructor / grading contacts
-
-Use the emails listed in your course PDF / checklist (invite repo, Overleaf report, etc.).
+### Group Members
+- **Harsh Kumar** (2201AI14)
+- **Krrish Raj** (2201CS41)
+- **Krishna Purwar** (2201CS40)
+- **Rahul Nikhate** (2201CS57)
